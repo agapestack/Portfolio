@@ -1,13 +1,18 @@
 <template>
   <div id="app" class="app">
 
-    <Navbar />
+    <div class="navigation" v-if="windowTop >= (innerHeight - 1)">
+      <Navbar/>
+      <SideNav/>
+    </div>
+
+
   
     <main>
       <section><Home class="views fullpage" id="home"/></section>
-      <section><Projects class="views  fullpage container" id="projects"/></section>
-      <section><About class="views  fullpage container" id="about"/></section>
-      <section><Contact class="views  fullpage container" id="contact"/></section>
+      <section><About class="views  fullpage" id="about"/></section>
+      <section><Projects class="views  fullpage" id="projects"/></section>
+      <section><Contact class="views  fullpage" id="contact"/></section>
     </main>
 
     <section>
@@ -18,6 +23,7 @@
 
 <script>
 import Navbar from './components/Navbar'
+import SideNav from './components/SideNav'
 import Footer from './components/Footer'
 import Home from './views/Home'
 import Projects from './views/Projects'
@@ -27,12 +33,31 @@ import Contact from './views/Contact'
 export default {
   components: {
     Navbar,
+    SideNav,
     Home,
     About,
     Contact,
     Projects,
-    Footer
+    Footer,
   },
+  data() {
+    return {
+      windowTop : 0,
+      innerHeight: 0,
+    }
+  },
+  mounted() {
+    this.innerHeight = window.innerHeight
+    window.addEventListener("scroll", this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll)
+  },
+  methods: {
+    onScroll(e) {
+      this.windowTop = window.top.scrollY /* or: e.target.documentElement.scrollTop */
+    }
+  }
 }
 </script>
 
@@ -44,11 +69,13 @@ export default {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-size: 1.2rem;
 }
 
 .app {
-  // background-color: #292929;
-  // color: white;
+  background: black;
+
 }
 
 .views {
@@ -64,6 +91,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#side-nav {
+  z-index: 100;
+  padding: 1rem 2rem;
+  border-radius: 10px;
 }
 
 </style>

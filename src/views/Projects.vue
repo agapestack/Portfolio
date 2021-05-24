@@ -1,7 +1,9 @@
 <template>
 <div>
   <div class="fake-nav"></div>
-  <h1>Projects</h1>
+  <div class="content">
+    <h1>Work</h1>
+  </div>
 </div>
   
 </template>
@@ -12,6 +14,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.content {
+  color: white;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 10fr 40fr 40fr 10fr;
+}
 </style>
